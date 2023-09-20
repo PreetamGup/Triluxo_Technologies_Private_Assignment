@@ -26,7 +26,15 @@ const getBookController= async(req,res)=>{
 }
 
 const addBookController =async(req,res)=>{
-    const { bookName, author, isbn } = req.body;
+    const { bookName, author, isbn } = req.body
+
+    const bookOrnot= await Books.find({author});
+
+    if(bookOrnot.length!==0){
+      return res.json({
+        message:"Book with this name already exist"
+      });
+    }
 
     try {
       const book = new Books({ bookName, author, isbn });
